@@ -70,8 +70,7 @@ class Queue extends Model {
 
     // gen resp
     echo json_encode(array(
-      'ok' => true,
-      'str' => $output
+      'ok' => true
     ));
 
   }
