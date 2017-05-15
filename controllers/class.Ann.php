@@ -13,6 +13,7 @@ class AnnController extends BaseController {
         $this->setRecordAll($json['req']['ann_arr'],$json['data']['rec']);
         break;
       case 'create':
+        $this->createAnn($json['data']);
         break;
       case 'delete':
         break;
@@ -39,6 +40,24 @@ class AnnController extends BaseController {
     echo json_encode(array(
       'ok' => true
     ));
+  }
+
+  private function createAnn($dataJson) {
+    $ann = new Ann();
+    $ann->create($dataJson['description'],
+                 $dataJson['rec_id'],
+                 $dataJson['rec_name'],
+                 $dataJson['queue_num']);
+    if ($ann->annId) {
+      Ann::dialPlanReloadNow();
+      echo json_encode(array(
+        'ok' => true,
+        'data' => array(
+          'ann_id' : $ann->annId
+        )
+      ));
+    }
+
   }
 
 }

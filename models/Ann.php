@@ -7,14 +7,14 @@ class Ann extends DialPlan {
 
   private $annId;
 
-  function __construct($__annId) {
-    if (!$__annId) {
-      throw new Exception('ann_id not set in constructor');
-    }
+  function __construct($__annId = null) {
     $this->annId = $__annId;
   }
 
   public function setRecord($__recId, $__recName) {
+    if (!$this->annId) {
+      throw new Exception('ann_id not set in constructor');
+    }
     $db = new db(new asteriskDataBase());
 
     // update data in DB for freepbx
@@ -39,4 +39,32 @@ class Ann extends DialPlan {
     return true;
   }
 
+  // create new announcement
+  public function create($__description, $__recId,$__recName,$__queueNum) {
+    $description .= "_".date("Y_m_d_h_i");
+
+    $db = new db(new asteriskDataBase());
+    $query = "insert into announcement( description,
+                                        allow_skip,
+                                        post_dest,
+                                        return_ivr,
+                                        noanswer,
+                                        repeat_msg,
+                                        recording_id)
+                               values ('$description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId')";
+    $result = mysql_query($query,$db->getConnection());
+    if (!$result) {
+      $db->closeConnection();
+      throw new Exception('mysql query run error');
+    }
+    $this->annId = mysql_insert_id($db->getConnection());
+    $db->closeConnection();
+
+  }
+
+  // drop exists announcement
+  public function delete($__annId) {
+    $db = new db(new asteriskDataBase());
+    $db->closeConnection();
+  }
 }
