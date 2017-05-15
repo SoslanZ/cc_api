@@ -7,7 +7,7 @@ class Queue extends Model {
 
   private $queueNum;
 
-  function __construct($__queueNum) {
+  function __construct($__queueNum = null) {
     $this->queueNum = $__queueNum;
   }
 
