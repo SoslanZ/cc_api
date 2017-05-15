@@ -62,10 +62,12 @@ class Queue extends Model {
     if (!$result) {
       throw new Exception('mysql query run error');
     }
-    
+
     $execString = 'bin/queue_weight.sh '.$this->queueNum.' '.$queueWeight;
     $output = exec($execString);
-
+    $execString = "asterisk -rx 'module reload app_queue.so'";
+    $output = exec($execString);
+    
     // gen resp
     echo json_encode(array(
       'ok' => true,
