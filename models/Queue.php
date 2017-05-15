@@ -31,17 +31,16 @@ class Queue extends Model {
     if (!$result) {
       throw new Exception('mysql query run error');
     }
-
-    echo '<?xml version="1.0" encoding="UTF-8"?>';
-    echo '<queues>';
-
+    $resp = array();
     while ($row = mysql_fetch_array($result, MYSQL_ASSOC)){
-       echo '<queue queue_num="'.$row['extension'].
-                  '" description="'.$row['descr'].
-                  '" weight="'.$row['data'].'" />';
-
+      array_push($resp,array(
+        'queue_num'   => $row['extension'],
+        'description' => $row['descr'],
+        'weight'      => $row['data']
+      ));
     }
-    echo '</queues>';
+    echo json_encode($resp);
+    
   }
 
   function setWeight($queueWeight) {
