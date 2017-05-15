@@ -24,16 +24,19 @@ try {
   if (!isset($_GET['c'])) {
       throw new Exception($_ERR_CNTR_NOT_SET);
   }
-  
+
   $controller = $_GET['c'];
 
-  if (!file_exists('controllers/'.$controller.'.php')) {
+  if (!file_exists('controllers/class.'.$controller.'.php')) {
     throw new Exception($_ERR_CNTR_NOT_EXIST);
   }
-  
+
   // pass processing to controller
-  require('controllers/'.$controller.'.php');
-  
+  require('controllers/class.'.$controller.'.php');
+  $className = $controller.'Controller';
+  $class = new $className( json_decode(file_get_contents('php://input'),true) );
+  $class->run();
+
 } catch (Exception $e) {
   echo response_error($e);
 }
