@@ -13,12 +13,9 @@ class Queue extends Model {
 
   function setWeight($queueWeight) {
     $db = new db(new asteriskDataBase());
-
-    echo "new weight for queue: ".$this->queueNum." - ".$queueWeight;
   }
 
   function replaceMembers($queueMembers) {
-    echo "replaceMembers";
   }
 
 }
