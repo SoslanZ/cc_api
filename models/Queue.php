@@ -42,12 +42,10 @@ class Queue extends Model {
 
     }
     echo '</queues>';
-
-    return 'some list';
   }
 
   function setWeight($queueWeight) {
-    if (!$queueWeight || )
+    if (!$queueWeight)
     $db = new db(new asteriskDataBase());
 
     $query = "update queues_details qd

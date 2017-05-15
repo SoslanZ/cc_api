@@ -27,7 +27,7 @@ class QueueController extends BaseController {
   }
 
   private function getQueueList() {
-    echo Queue::getQueueList();
+    Queue::getQueueList();
   }
 
   private function setWeight($queueNum,$queueWeight) {
