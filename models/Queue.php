@@ -7,11 +7,14 @@ class Queue extends Model {
 
   private $queueNum;
 
-  function __construct($__queueNum = null) {
+  function __construct($__queueNum) {
+    if (!$__queueNum) {
+      throw new Exception('Queue Num not set');
+    }
     $this->queueNum = $__queueNum;
   }
 
-  function getQueueList() {
+  public static function getQueueList() {
     $db = new db(new asteriskDataBase());
 
     $query = "SELECT qc.extension,
@@ -44,6 +47,7 @@ class Queue extends Model {
   }
 
   function setWeight($queueWeight) {
+    if (!$queueWeight || )
     $db = new db(new asteriskDataBase());
 
     $query = "update queues_details qd
