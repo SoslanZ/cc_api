@@ -27,10 +27,10 @@ class AnnController extends BaseController {
     if (!count($array_of_ann)) {
       throw new Exception("Array of anns is empty");
     }
-    
+
     foreach ($array_of_ann as $key => $value) {
       $ann = new Ann($value['ann_id']);
-      if ( !$ann->setRecord($rec['rec_id'],$rec['rec_name']) ) {
+      if ( !$ann->setRecord($rec['rec_id']?$rec['rec_id']:0,$rec['rec_name']) ) {
         throw new Exception("Error Processing Request");
       };
     }
