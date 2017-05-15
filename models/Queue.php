@@ -24,7 +24,9 @@ class Queue extends Model {
 
     $result = mysql_query($query,$db->getConnection());
 
-    if (!$result) exit('mysql_error');
+    if (!$result) {
+      throw new Exception('mysql query run error');
+    }
 
     echo '<?xml version="1.0" encoding="UTF-8"?>';
     echo '<queues>';
