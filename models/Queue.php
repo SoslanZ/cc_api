@@ -62,14 +62,14 @@ class Queue extends Model {
     if (!$result) {
       throw new Exception('mysql query run error');
     }
-    $execString = 'bin/queue_weight '.$this->queueNum.' '.$queueWeight;
-
-    //$output = exec($execString);
+    
+    $execString = 'bin/queue_weight.sh '.$this->queueNum.' '.$queueWeight;
+    $output = exec($execString);
 
     // gen resp
     echo json_encode(array(
       'ok' => true,
-      'str' => $execString
+      'str' => $output
     ));
 
   }
