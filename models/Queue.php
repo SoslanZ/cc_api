@@ -40,6 +40,7 @@ class Queue extends Model {
       ));
     }
 
+    // gen resp
     echo json_encode(array(
       'ok'   => true,
       'data' => $resp
@@ -48,7 +49,7 @@ class Queue extends Model {
   }
 
   function setWeight($queueWeight) {
-    
+
     $db = new db(new asteriskDataBase());
 
     $query = "update queues_details qd
@@ -62,6 +63,7 @@ class Queue extends Model {
       throw new Exception('mysql query run error');
     }
 
+    // gen resp
     echo json_encode(array(
       'ok' => true
     ));
@@ -69,6 +71,7 @@ class Queue extends Model {
   }
 
   function replaceMembers($queueMembers) {
+    
   }
 
 }
