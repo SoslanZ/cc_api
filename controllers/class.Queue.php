@@ -12,10 +12,10 @@ class QueueController extends BaseController {
 
     switch ($act) {
       case 'set_weight':
-        $this->setWeight($req['queueNum'],$data['weight']);
+        $this->setWeight($req['queue_num'],$data['weight']);
         break;
       case 'replace_members':
-        $this->replaceMembers($req['queueNum'],$data['weight']);
+        $this->replaceMembers($req['queue_num'],$data['weight']);
       break;
       default:
         $this->err('Act not recognized');
