@@ -13,6 +13,26 @@ class Queue extends Model {
 
   function getQueueList() {
     $dbLink = new db(new asteriskDataBase());
+
+    $query = "SELECT qc.extension,
+                     qc.descr,
+                     qd.data
+                FROM queues_config qc,
+                     queues_details qd
+               WHERE qd.keyword = 'weight'
+                 and qc.extension = qd.id";
+    $result = mysql_query($query,$dbLink);
+    if (!$result) exit('mysql_error');
+    echo '<?xml version="1.0" encoding="UTF-8"?>';
+    echo '<queues>';
+
+    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)){
+       echo '<queue queue_num="'.$row['extension'].
+                  '" description="'.$row['descr'].
+                  '" weight="'.$row['data'].'" />';
+
+    }
+    echo '</queues>';
     $dbLink->closeConnection();
     return 'some list';
   }
