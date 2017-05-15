@@ -39,8 +39,12 @@ class Queue extends Model {
         'weight'      => $row['data']
       ));
     }
-    echo json_encode($resp);
-    
+
+    echo json_encode(array(
+      'ok'   => true,
+      'data' => $resp
+    ));
+
   }
 
   function setWeight($queueWeight) {
