@@ -11,8 +11,15 @@ class Queue extends Model {
     $this->queueNum = $__queueNum;
   }
 
+  function getQueueList() {
+    $dbLink = new db(new asteriskDataBase());
+    $dbLink->closeConnection();
+    return 'some list';
+  }
+
   function setWeight($queueWeight) {
-    $db = new db(new asteriskDataBase());
+    $dbLink = new db(new asteriskDataBase());
+    $dbLink->closeConnection();
   }
 
   function replaceMembers($queueMembers) {

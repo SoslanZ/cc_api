@@ -11,16 +11,24 @@ class QueueController extends BaseController {
     $data = array_key_exists('data',$this->json) ? $this->json['data'] : '';
 
     switch ($act) {
+      case 'list_queue':
+        $this->getQueueList();
+        break;
       case 'set_weight':
-        $this->setWeight($req['queue_num'],$data['weight']);
+        $this->setWeight( $req['queue_num'], $data['weight'] );
         break;
       case 'replace_members':
-        $this->replaceMembers($req['queue_num'],$data['weight']);
+        $this->replaceMembers( $req['queue_num'], $data['weight'] );
       break;
       default:
         $this->err('Act not recognized');
       break;
     }
+  }
+
+  private function getQueueList() {
+    $q = new Queue();
+    echo $q->getQueueList();
   }
 
   private function setWeight($queueNum,$queueWeight) {
