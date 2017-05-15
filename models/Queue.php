@@ -23,6 +23,7 @@ class Queue extends Model {
                  and qc.extension = qd.id";
 
     $result = mysql_query($query,$db->getConnection());
+    $db->closeConnection();
 
     if (!$result) {
       throw new Exception('mysql query run error');
@@ -38,13 +39,26 @@ class Queue extends Model {
 
     }
     echo '</queues>';
-    $db->closeConnection();
+
     return 'some list';
   }
 
   function setWeight($queueWeight) {
-    $dbLink = new db(new asteriskDataBase());
-    $dbLink->closeConnection();
+    $db = new db(new asteriskDataBase());
+
+    $query = "update queues_details qd
+                 set qd.data = ".$queueWeight."
+               where qd.keyword = 'weight'
+                 and qd.id = ".$this->queueNum;
+    $result = mysql_query($query,$db->getConnection());
+    $db->closeConnection();
+
+    if (!$result) {
+      throw new Exception('mysql query run error');
+    }
+    $resp = array('ok' => true);
+    echo json_encode($resp);
+
   }
 
   function replaceMembers($queueMembers) {
