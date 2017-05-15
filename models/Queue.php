@@ -12,7 +12,7 @@ class Queue extends Model {
   }
 
   function getQueueList() {
-    $dbLink = new db(new asteriskDataBase());
+    $db = new db(new asteriskDataBase());
 
     $query = "SELECT qc.extension,
                      qc.descr,
@@ -21,8 +21,11 @@ class Queue extends Model {
                      queues_details qd
                WHERE qd.keyword = 'weight'
                  and qc.extension = qd.id";
-    $result = mysql_query($query,$dbLink);
+
+    $result = mysql_query($query,$db->getConnection());
+
     if (!$result) exit('mysql_error');
+
     echo '<?xml version="1.0" encoding="UTF-8"?>';
     echo '<queues>';
 
@@ -33,7 +36,7 @@ class Queue extends Model {
 
     }
     echo '</queues>';
-    $dbLink->closeConnection();
+    $db->closeConnection();
     return 'some list';
   }
 
