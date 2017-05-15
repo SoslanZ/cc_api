@@ -48,7 +48,7 @@ class Queue extends Model {
   }
 
   function setWeight($queueWeight) {
-    if (!$queueWeight)
+    
     $db = new db(new asteriskDataBase());
 
     $query = "update queues_details qd
