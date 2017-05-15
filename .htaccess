@@ -1,0 +1,9 @@
+DirectoryIndex index.php
+Options -Indexes
+AuthType Basic
+AuthName "GKH Autodialer"
+AuthUserFile /var/www/.htpasswd
+AuthGroupFile /dev/null
+require valid-user
+Order allow,deny
+Satisfy any
