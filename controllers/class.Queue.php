@@ -6,19 +6,17 @@ require 'models/Queue.php';
 class QueueController extends BaseController {
 
   public function run() {
-    $act  = $this->json['act'];
-    $req  = array_key_exists('req',$this->json) ? $this->json['req'] : '';
-    $data = array_key_exists('data',$this->json) ? $this->json['data'] : '';
+    $json = $this->json;
 
-    switch ($act) {
+    switch ($json['act']) {
       case 'list_queue':
         $this->getQueueList();
         break;
       case 'set_weight':
-        $this->setWeight( $req['queue_num'], $data['weight'] );
+        $this->setWeight( $json['req']['queue_num'], $json['data']['weight'] );
         break;
       case 'replace_members':
-        $this->replaceMembers( $req['queue_num'], $data['weight'] );
+        $this->replaceMembers( $json['req']['queue_num'], $json['data']['weight'] );
       break;
       default:
         $this->err('Act not recognized');
