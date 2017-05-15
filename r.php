@@ -32,7 +32,7 @@ try {
   }
 
   // pass processing to controller
-  require('controllers/class.'.$controller.'.php');
+  $r = require('controllers/class.'.$controller.'.php');
   $className = $controller.'Controller';
   $class = new $className( json_decode(file_get_contents('php://input'),true) );
   $class->run();

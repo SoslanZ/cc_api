@@ -15,9 +15,15 @@ class QueueController extends BaseController {
       case 'set_weight':
         $this->setWeight( $json['req']['queue_num'], $json['data']['weight'] );
         break;
+      case 'create':
+        //$this->;
+        break;
+      case 'delete':
+        //$this->;
+        break;
       case 'replace_members':
         $this->replaceMembers( $json['req']['queue_num'], $json['data']['weight'] );
-      break;
+        break;
       default:
         $this->err('Act not recognized');
       break;
@@ -31,6 +37,16 @@ class QueueController extends BaseController {
   private function setWeight($queueNum,$queueWeight) {
     $q = new Queue($queueNum);
     $q->setWeight($queueWeight);
+  }
+
+  private function createQueue() {
+    $q = new Queue($queueNum);
+    $q->create();
+  }
+
+  private function deleteQueue() {
+    $q = new Queue($queueNum);
+    $q->delete();
   }
 
   private function replaceMembers($queueNum,$queueMembers) {

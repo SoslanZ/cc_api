@@ -48,7 +48,7 @@ class Queue extends Model {
 
   }
 
-  function setWeight($queueWeight) {
+  public function setWeight($queueWeight) {
 
     $db = new db(new asteriskDataBase());
 
@@ -65,9 +65,9 @@ class Queue extends Model {
 
     $execString = 'bin/queue_weight.sh '.$this->queueNum.' '.$queueWeight;
     $output = exec($execString);
-    $execString = "asterisk -rx 'module reload app_queue.so'";
-    $output = exec($execString);
-    
+
+    self::reloadModule();
+
     // gen resp
     echo json_encode(array(
       'ok' => true,
@@ -76,8 +76,21 @@ class Queue extends Model {
 
   }
 
-  function replaceMembers($queueMembers) {
+  public function replaceMembers($queueMembers) {
 
+  }
+
+  public function create() {
+
+  }
+
+  public function delete() {
+
+  }
+
+  public static function reloadModule() {
+    $execString = "asterisk -rx 'module reload app_queue.so'";
+    $output = exec($execString);
   }
 
 }
