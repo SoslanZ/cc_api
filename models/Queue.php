@@ -56,8 +56,10 @@ class Queue extends Model {
     if (!$result) {
       throw new Exception('mysql query run error');
     }
-    $resp = array('ok' => true);
-    echo json_encode($resp);
+
+    echo json_encode(array(
+      'ok' => true
+    ));
 
   }
 
