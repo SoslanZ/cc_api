@@ -24,6 +24,10 @@ class AnnController extends BaseController {
   }
 
   private function setRecordAll($array_of_ann, $rec) {
+    if (!count($array_of_ann)) {
+      throw new Exception("Array of anns is empty");
+    }
+    
     foreach ($array_of_ann as $key => $value) {
       $ann = new Ann($value['ann_id']);
       if ( !$ann->setRecord($rec['rec_id'],$rec['rec_name']) ) {
