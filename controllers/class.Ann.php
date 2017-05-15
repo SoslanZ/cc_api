@@ -17,6 +17,7 @@ class AnnController extends BaseController {
       case 'delete':
         break;
       default:
+        throw new Exception("Act not recognized");
         break;
     }
 
