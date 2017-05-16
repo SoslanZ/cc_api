@@ -5,7 +5,7 @@ require 'config/db.php';
 
 class Ann extends DialPlan {
 
-  private $annId;
+  public $annId;
 
   function __construct($__annId = null) {
     $this->annId = $__annId;
