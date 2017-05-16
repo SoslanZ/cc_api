@@ -53,7 +53,7 @@ class AnnController extends BaseController {
       echo json_encode(array(
         'ok' => true,
         'data' => array(
-          'ann_id' : $ann->annId
+          'ann_id' => $ann->annId
         )
       ));
     }
