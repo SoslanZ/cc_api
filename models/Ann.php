@@ -47,7 +47,8 @@ class Ann extends DialPlan {
     $db = new db(new asteriskDataBase());
     $query = "insert into announcement( description,allow_skip,post_dest,return_ivr,noanswer,repeat_msg,recording_id)
                                 values('$description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId')";
-
+                                
+    mysql_query("SET autocommit=0;",$db->getConnection());
     $db->beginTransaction();
     $result = mysql_query($query,$db->getConnection());
     $result = $db->rollback();
