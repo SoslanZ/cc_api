@@ -50,6 +50,7 @@ class Ann extends DialPlan {
     // run transaction
     $db->begin();
     $result = mysql_query($query,$db->getConnection());
+    $db->rollback();
     if (!$result) {
       $db->rollback();
       $db->closeConnection();
