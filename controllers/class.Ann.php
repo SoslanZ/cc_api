@@ -9,13 +9,14 @@ class AnnController extends BaseController {
     $json = $this->json;
 
     switch ($json['act']) {
-      case 'set_rec':
+      case 'set_rec' :
         $this->setRecordAll($json['req']['ann_arr'],$json['data']['rec']);
         break;
-      case 'create':
+      case  'create' :
         $this->createAnn($json['data']);
         break;
-      case 'delete':
+      case  'delete' :
+        $this->deleteAnn($json['req']);
         break;
       default:
         throw new Exception("Act not recognized");
@@ -57,6 +58,10 @@ class AnnController extends BaseController {
         )
       ));
     }
+
+  }
+
+  private function deleteAnn($annId) {
 
   }
 

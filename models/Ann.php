@@ -52,12 +52,15 @@ class Ann extends DialPlan {
                                         repeat_msg,
                                         recording_id)
                                values ('$description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId')";
+    $db->begin();
     $result = mysql_query($query,$db->getConnection());
     if (!$result) {
+      $db->rollback();
       $db->closeConnection();
       throw new Exception('mysql query run error');
     }
     $this->annId = mysql_insert_id($db->getConnection());
+    $db->commit();
     $db->closeConnection();
 
   }

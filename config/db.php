@@ -16,4 +16,16 @@ class db {
     mysql_close($this->link);
   }
 
+  function begin() {
+    mysql_query("BEGIN",$this->getConnection());
+  }
+
+  function commit() {
+    mysql_query("COMMIT",$this->getConnection());
+  }
+
+  function rollback() {
+    mysql_query("ROLLBACK",$this->getConnection());
+  }
+
 }
