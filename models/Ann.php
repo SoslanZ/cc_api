@@ -51,7 +51,7 @@ class Ann extends DialPlan {
     $result = $db->begin();
     if (!$result) {
       //$db->closeConnection();
-      throw new Exception(mysql_error($db->getConnection()));
+      throw new Exception(mysql_error());
     }
     $result = mysql_query($query,$db->getConnection());
     $result = $db->rollback();
