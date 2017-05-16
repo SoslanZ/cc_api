@@ -17,15 +17,15 @@ class db {
   }
 
   function begin() {
-    mysql_query("BEGIN",$this->getConnection());
+    mysql_query("START TRANSACTION;",$this->getConnection());
   }
 
   function commit() {
-    mysql_query("COMMIT",$this->getConnection());
+    mysql_query("COMMIT;",$this->getConnection());
   }
 
   function rollback() {
-    mysql_query("ROLLBACK",$this->getConnection());
+    mysql_query("ROLLBACK;",$this->getConnection());
   }
 
 }
