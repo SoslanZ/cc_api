@@ -57,7 +57,7 @@ class Ann extends DialPlan {
     }
     $this->annId = mysql_insert_id($db->getConnection());
 
-    $execString = 'bin/ann_create.sh.sh '.$this->annId.' '.$__recName.' '.$__queueNum;
+    $execString = 'bin/ann_create.sh '.$this->annId.' '.$__recName.' '.$__queueNum;
     $consoleOutput = exec($execString);
     if ($consoleOutput) {
       $db->rollback();
