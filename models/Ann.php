@@ -44,14 +44,9 @@ class Ann extends DialPlan {
     $description .= "_".date("Y_m_d_h_i");
 
     $db = new db(new asteriskDataBase());
-    $query = "insert into announcement( description,
-                                        allow_skip,
-                                        post_dest,
-                                        return_ivr,
-                                        noanswer,
-                                        repeat_msg,
-                                        recording_id)
-                               values ('$description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId')";
+    $query = "insert into announcement( description,allow_skip,post_dest,return_ivr,noanswer,repeat_msg,recording_id)
+                                values('$description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId')";
+    // run transaction
     $db->begin();
     $result = mysql_query($query,$db->getConnection());
     if (!$result) {
@@ -60,6 +55,15 @@ class Ann extends DialPlan {
       throw new Exception('mysql query run error');
     }
     $this->annId = mysql_insert_id($db->getConnection());
+
+    $execString = 'bin/ann_create.sh.sh '.$this->annId.' '.$__recName.' '.$__queueNum;
+    $consoleOutput = exec($execString);
+    if ($consoleOutput) {
+      $db->rollback();
+      $db->closeConnection();
+      throw new Exception($consoleOutput);
+    }
+
     $db->commit();
     $db->closeConnection();
 
