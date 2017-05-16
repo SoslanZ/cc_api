@@ -46,13 +46,13 @@ class Ann extends DialPlan {
 
     $db = new db(new asteriskDataBase());
     $query = "insert into announcement( description,allow_skip,post_dest,return_ivr,noanswer,repeat_msg,recording_id)
-                                values('$description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId')";
+                                values('$description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId');";
 
     //$db->beginTransaction();
-    mysql_query("SET autocommit=0");
-    mysql_query("BEGIN");
+    mysql_query("SET autocommit=0;");
+    mysql_query("BEGIN;");
     $result = mysql_query($query); // ,$db->getConnection()
-    mysql_query("ROLLBACK");
+    mysql_query("ROLLBACK;");
     //$result = $db->rollback();
     if (!$result) {
       //$db->rollback();
