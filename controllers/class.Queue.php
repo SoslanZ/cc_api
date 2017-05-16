@@ -31,12 +31,21 @@ class QueueController extends BaseController {
   }
 
   private function getQueueList() {
-    Queue::getQueueList();
+    $list = Queue::getQueueList();
+
+    echo json_encode(array(
+      'ok'   => true,
+      'data' => $list
+    ));
   }
 
   private function setWeight($queueNum,$queueWeight) {
     $q = new Queue($queueNum);
-    $q->setWeight($queueWeight);
+    if ( $q->setWeight($queueWeight) ) {
+      echo json_encode(array(
+        'ok' => true
+      ));
+    };
   }
 
   private function createQueue() {

@@ -51,12 +51,14 @@ class AnnController extends BaseController {
                  $dataJson['queue_num']);
     if ($ann->annId) {
       Ann::dialPlanReloadNow();
+
       echo json_encode(array(
         'ok' => true,
         'data' => array(
           'ann_id' => $ann->annId
         )
       ));
+
     }
 
   }
@@ -65,9 +67,11 @@ class AnnController extends BaseController {
     $ann = new Ann($reqJson['ann_id']);
     if ( $ann->delete() ) {
       Ann::dialPlanReloadNow();
+
       echo json_encode(array(
         'ok' => true
       ));
+
     }
 
   }

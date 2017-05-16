@@ -20,9 +20,8 @@ class Ann extends DialPlan {
                  set an.recording_id = ".$__recId."
                where an.announcement_id = ".$this->annId;
     $result = mysql_query($query,$db->getConnection());
-    $db->closeConnection();
     if (!$result) {
-      throw new Exception('mysql query run error');
+      throw new Exception(mysql_error($db->getConnection()));
     }
 
     // update data in extensions file

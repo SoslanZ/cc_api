@@ -26,7 +26,6 @@ class Queue extends Model {
                  and qc.extension = qd.id";
 
     $result = mysql_query($query,$db->getConnection());
-    $db->closeConnection();
 
     if (!$result) {
       throw new Exception('mysql query run error');
@@ -39,12 +38,7 @@ class Queue extends Model {
         'weight'      => $row['data']
       ));
     }
-
-    // gen resp
-    echo json_encode(array(
-      'ok'   => true,
-      'data' => $resp
-    ));
+    return $resp;
 
   }
 
@@ -57,22 +51,16 @@ class Queue extends Model {
                where qd.keyword = 'weight'
                  and qd.id = ".$this->queueNum;
     $result = mysql_query($query,$db->getConnection());
-    $db->closeConnection();
 
     if (!$result) {
-      throw new Exception('mysql query run error');
+      throw new Exception(mysql_error($db->getConnection()));
     }
 
     $execString = 'bin/queue_weight.sh '.$this->queueNum.' '.$queueWeight;
     $output = exec($execString);
 
     self::reloadModule();
-
-    // gen resp
-    echo json_encode(array(
-      'ok' => true
-    ));
-
+    return true;
   }
 
   public function replaceMembers($queueMembers) {
