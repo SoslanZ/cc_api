@@ -50,9 +50,9 @@ class Ann extends DialPlan {
 
     $db->beginTransaction();
     $result = mysql_query($query,$db->getConnection());
-    $db->rollback();
+    $result = $db->rollback();
     if (!$result) {
-      $db->rollback();
+      //$db->rollback();
       throw new Exception(mysql_error($db->getConnection()));
     }
     $this->annId = mysql_insert_id($db->getConnection());
