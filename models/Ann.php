@@ -45,8 +45,7 @@ class Ann extends DialPlan {
     $query = "insert into announcement( description,allow_skip,post_dest,return_ivr,noanswer,repeat_msg,recording_id)
                                 values('$__description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId')";
     // try insert and get ID
-    $result = mysql_query($query,$db->getConnection());
-    if (!$result) {
+    if ( !mysql_query($query,$db->getConnection()) ) {
       throw new Exception(mysql_error($db->getConnection()));
     }
     $this->annId = mysql_insert_id($db->getConnection());
@@ -57,11 +56,21 @@ class Ann extends DialPlan {
       mysql_query("delete from announcement where announcement_id = ".$this->annId,$db->getConnection());
       throw new Exception($err);
     }
+
+    return true;
   }
 
   // drop exists announcement
   public function delete($__annId) {
     $db = new db(new asteriskDataBase());
-    $db->closeConnection();
+    if ( !mysql_query("delete from announcement where announcement_id = ".$this->annId,$db->getConnection()) ) {
+      throw new Exception(mysql_error($db->getConnection()));
+    }
+    $err = exec('bin/ann_delete.sh '.$this->annId);
+    if ($err) {
+      throw new Exception($err);
+    }
+
+    return true;
   }
 }

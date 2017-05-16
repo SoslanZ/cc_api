@@ -62,7 +62,14 @@ class AnnController extends BaseController {
   }
 
   private function deleteAnn($annId) {
-
+    $ann = new Ann($annId);
+    if ( $ann->delete() ) {
+      Ann::dialPlanReloadNow();
+      echo json_encode(array(
+        'ok' => true
+      ));
+    }
+    
   }
 
 }
