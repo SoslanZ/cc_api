@@ -15,7 +15,7 @@ class BaseController {
   }
 
   protected function err($msg) {
-    throw new Exception($this->_ERR_ACT_RECOGNIZE);
+    throw new Exception($msg);
   }
 
 }

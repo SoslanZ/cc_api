@@ -15,8 +15,8 @@ class Ann extends DialPlan {
     if (!$this->annId) {
       throw new Exception('ann_id not set in constructor');
     }
-    $db = new db(new asteriskDataBase());
 
+    $db = new db(new asteriskDataBase());
     // update data in DB for freepbx
     $query = "update announcement an
                  set an.recording_id = ".$__recId."
