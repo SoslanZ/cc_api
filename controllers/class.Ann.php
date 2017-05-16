@@ -45,7 +45,7 @@ class AnnController extends BaseController {
 
   private function createAnn($dataJson) {
     $ann = new Ann();
-    $ann->create($dataJson['description'],
+    $ann->create($dataJson['description']."_".date("Y_m_d_h_i"),
                  $dataJson['rec_id'],
                  $dataJson['rec_name'],
                  $dataJson['queue_num']);

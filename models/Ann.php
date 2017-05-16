@@ -41,34 +41,19 @@ class Ann extends DialPlan {
 
   // create new announcement
   public function create($__description, $__recId,$__recName,$__queueNum) {
-
-    $description = $__description."_".date("Y_m_d_h_i");
-
     $db = new db(new asteriskDataBase());
     $query = "insert into announcement( description,allow_skip,post_dest,return_ivr,noanswer,repeat_msg,recording_id)
-                                values('$description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId');";
-
-    //$db->beginTransaction();
-    mysql_query("SET autocommit=0;");
-    mysql_query("BEGIN;");
-    $result = mysql_query($query); // ,$db->getConnection()
-    mysql_query("ROLLBACK;");
-    //$result = $db->rollback();
-    if (!$result) {
-      //$db->rollback();
-      throw new Exception(mysql_error($db->getConnection()));
-    }
+                                values('$__description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId')";
+    // try insert and get ID
+    $result = mysql_query($query,$db->getConnection()) or throw new Exception(mysql_error($db->getConnection()));
     $this->annId = mysql_insert_id($db->getConnection());
-
-    $execString = 'bin/ann_create.sh '.$this->annId.' '.$__recName.' '.$__queueNum;
-    $consoleOutput = exec($execString);
-    if ($consoleOutput) {
-      $db->rollback();
-      throw new Exception($consoleOutput);
+    // get err from BIN command
+    $err = exec('bin/ann_create.sh '.$this->annId.' '.$__recName.' '.$__queueNum);
+    if ($err) {
+      // del row because ebana MyIsam
+      mysql_query("delete from announcement where announcement_id = ".$this->annId,$db->getConnection());
+      throw new Exception($err);
     }
-
-    $db->commit();
-
   }
 
   // drop exists announcement
