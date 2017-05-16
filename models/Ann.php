@@ -49,6 +49,7 @@ class Ann extends DialPlan {
                                 values('$description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId')";
 
     //$db->beginTransaction();
+    mysql_query("SET autocommit=0");
     mysql_query("BEGIN");
     $result = mysql_query($query); // ,$db->getConnection()
     mysql_query("ROLLBACK");
