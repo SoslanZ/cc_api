@@ -48,16 +48,14 @@ class Ann extends DialPlan {
     $query = "insert into announcement( description,allow_skip,post_dest,return_ivr,noanswer,repeat_msg,recording_id)
                                 values('$description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId')";
     // run transaction
-    $result = mysql_query("BEGIN",$db->getConnection());
+    $result = $db->begin(); /*mysql_query("BEGIN",$db->getConnection());*/
     if (!$result) {
-      //$db->closeConnection();
-      throw new Exception(mysql_error());
+      throw new Exception(mysql_error($db->getConnection()));
     }
     $result = mysql_query($query,$db->getConnection());
     $result = $db->rollback();
     if (!$result) {
       $db->rollback();
-      $db->closeConnection();
       throw new Exception(mysql_error($db->getConnection()));
     }
     $this->annId = mysql_insert_id($db->getConnection());
@@ -66,12 +64,10 @@ class Ann extends DialPlan {
     $consoleOutput = exec($execString);
     if ($consoleOutput) {
       $db->rollback();
-      $db->closeConnection();
       throw new Exception($consoleOutput);
     }
 
     $db->commit();
-    $db->closeConnection();
 
   }
 
