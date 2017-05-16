@@ -12,9 +12,7 @@ class Ann extends DialPlan {
   }
 
   public function setRecord($__recId, $__recName) {
-    if (!$this->annId) {
-      throw new Exception('ann_id not set in constructor');
-    }
+    $this->checkAnnId();
 
     $db = new db(new asteriskDataBase());
     // update data in DB for freepbx
@@ -61,7 +59,8 @@ class Ann extends DialPlan {
   }
 
   // drop exists announcement
-  public function delete($__annId) {
+  public function delete() {
+    $this->checkAnnId();
     $db = new db(new asteriskDataBase());
     if ( !mysql_query("delete from announcement where announcement_id = ".$this->annId,$db->getConnection()) ) {
       throw new Exception(mysql_error($db->getConnection()));
@@ -72,5 +71,11 @@ class Ann extends DialPlan {
     }
 
     return true;
+  }
+
+  private function checkAnnId() {
+    if (!$this->annId) {
+      throw new Exception('ann_id not set in constructor');
+    }
   }
 }
