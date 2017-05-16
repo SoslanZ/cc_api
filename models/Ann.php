@@ -45,7 +45,10 @@ class Ann extends DialPlan {
     $query = "insert into announcement( description,allow_skip,post_dest,return_ivr,noanswer,repeat_msg,recording_id)
                                 values('$__description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId')";
     // try insert and get ID
-    $result = mysql_query($query,$db->getConnection()) or throw new Exception(mysql_error($db->getConnection()));
+    $result = mysql_query($query,$db->getConnection());
+    if (!$result) {
+      throw new Exception(mysql_error($db->getConnection()));
+    }
     $this->annId = mysql_insert_id($db->getConnection());
     // get err from BIN command
     $err = exec('bin/ann_create.sh '.$this->annId.' '.$__recName.' '.$__queueNum);
