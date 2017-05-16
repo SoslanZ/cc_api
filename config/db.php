@@ -16,7 +16,7 @@ class db {
     mysql_close($this->link);
   }
 
-  public function begin() {
+  public function beginTransaction() {
     return mysql_query("BEGIN",$this->getConnection());
   }
 
