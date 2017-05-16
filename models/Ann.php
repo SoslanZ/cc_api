@@ -54,7 +54,7 @@ class Ann extends DialPlan {
     if (!$result) {
       $db->rollback();
       $db->closeConnection();
-      throw new Exception('mysql query run error');
+      throw new Exception(mysql_error($db->getConnection()));
     }
     $this->annId = mysql_insert_id($db->getConnection());
 
