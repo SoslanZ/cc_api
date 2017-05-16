@@ -8,23 +8,23 @@ class db {
     mysql_select_db($db->db,$this->link);
   }
 
-  function getConnection() {
+  public function getConnection() {
     return $this->link;
   }
 
-  function closeConnection() {
+  public function closeConnection() {
     mysql_close($this->link);
   }
 
-  function begin() {
+  public function begin() {
     mysql_query("BEGIN",$this->getConnection());
   }
 
-  function commit() {
+  public function commit() {
     mysql_query("COMMIT",$this->getConnection());
   }
 
-  function rollback() {
+  public function rollback() {
     mysql_query("ROLLBACK",$this->getConnection());
   }
 
