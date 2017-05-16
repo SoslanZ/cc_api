@@ -48,7 +48,7 @@ class Ann extends DialPlan {
     $query = "insert into announcement( description,allow_skip,post_dest,return_ivr,noanswer,repeat_msg,recording_id)
                                 values('$description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId')";
     // run transaction
-    $result = mysql_query("BEGIN");
+    $result = mysql_query("BEGIN",$db->getConnection());
     if (!$result) {
       //$db->closeConnection();
       throw new Exception(mysql_error());
