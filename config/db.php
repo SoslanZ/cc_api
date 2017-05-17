@@ -32,7 +32,7 @@ class db {
     $result = mysql_query($query,$this->getConnection());
     if ( !$result ) {
       $this->rollback();
-      $this->exception( mysql_error($this->getConnection()) );
+      throw new Exception( mysql_error($this->getConnection()) );
     }
     return $result;
   }
