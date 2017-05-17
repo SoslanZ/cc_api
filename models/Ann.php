@@ -21,7 +21,7 @@ class Ann extends DialPlan {
                where an.announcement_id = ".$this->annId;
     $result = mysql_query($query,$db->getConnection());
     if (!$result) {
-      throw new Exception(mysql_error($db->getConnection()));
+      $this->exception( mysql_error($db->getConnection()) );
     }
 
     // update data in extensions file
@@ -43,7 +43,7 @@ class Ann extends DialPlan {
                                 values('$__description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId')";
     // try insert and get ID
     if ( !mysql_query($query,$db->getConnection()) ) {
-      throw new Exception(mysql_error($db->getConnection()));
+      $this->exception( mysql_error($db->getConnection()) );
     }
     $this->annId = mysql_insert_id($db->getConnection());
     // get err from BIN command
@@ -51,7 +51,7 @@ class Ann extends DialPlan {
     if ($err) {
       // del row because ebana MyIsam
       mysql_query("delete from announcement where announcement_id = ".$this->annId,$db->getConnection());
-      throw new Exception($err);
+      $this->exception( $err );
     }
 
     return true;
@@ -62,11 +62,11 @@ class Ann extends DialPlan {
     $this->checkAnnId();
     $db = new db(new asteriskDataBase());
     if ( !mysql_query("delete from announcement where announcement_id = ".$this->annId,$db->getConnection()) ) {
-      throw new Exception(mysql_error($db->getConnection()));
+      $this->exception( mysql_error($db->getConnection()) );
     }
     $err = exec('bin/ann_delete.sh '.$this->annId);
     if ($err) {
-      throw new Exception($err);
+      $this->exception( $err );
     }
 
     return true;
@@ -74,7 +74,7 @@ class Ann extends DialPlan {
 
   private function checkAnnId() {
     if (!$this->annId) {
-      throw new Exception('ann_id not set in constructor');
+      $this->exception('ann_id not set in constructor');
     }
   }
 }

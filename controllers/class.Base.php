@@ -1,8 +1,10 @@
 <?php
 
 class BaseController {
-  private $_ERR_RUN_NOT_EXIST = 'Run method not exists';
-  private $_ERR_ACT_RECOGNIZE = 'Action not recognized';
+
+  protected $_ERR_RUN_NOT_EXIST = 'Run method not exists';
+  protected $_ERR_ACT_RECOGNIZE = 'Action not recognized';
+  protected $_ERR_PROCESSING = 'Error in processing routine';
 
   protected $json;
 
@@ -14,7 +16,7 @@ class BaseController {
     throw new Exception($this->_ERR_RUN_NOT_EXIST);
   }
 
-  protected function err($msg) {
+  protected function exception($msg) {
     throw new Exception($msg);
   }
 
