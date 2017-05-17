@@ -25,7 +25,7 @@ class QueueController extends BaseController {
         $this->replaceMembers( $json['req']['queue_num'], $json['data']['weight'] );
         break;
       default:
-        $this->exception('Act not recognized');
+        $this->exception( $this->_ERR_ACT_RECOGNIZE );
       break;
     }
   }
@@ -40,6 +40,7 @@ class QueueController extends BaseController {
   private function setWeight($queueNum,$queueWeight) {
     $q = new Queue($queueNum);
     if ( $q->setWeight($queueWeight) ) {
+      Queue::reloadModule();
       echo json_encode(array(
         'ok' => true
       ));

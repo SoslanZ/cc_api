@@ -7,13 +7,13 @@ class Queue extends Model {
 
   private $queueNum;
 
-  function __construct($__queueNum) {
-    if (!$__queueNum) {
-      throw new Exception('Queue Num not set');
-    }
+  function __construct($__queueNum=null) {
     $this->queueNum = $__queueNum;
   }
 
+  /**
+  * Получает список очередей с их весом
+  */
   public static function getQueueList() {
     $db = new db(new asteriskDataBase());
     $query = "SELECT qc.extension,
@@ -39,24 +39,31 @@ class Queue extends Model {
     return $resp;
   }
 
+  /**
+  * Устанавливает вес очереди
+  */
   public function setWeight($queueWeight) {
-
+    $this->checkQueueExists();
+    if (!$queueWeight) {
+      $this->exception( $this->_ERR_PARAMS );
+    }
+    // вес в БД
     $db = new db(new asteriskDataBase());
-
     $query = "update queues_details qd
                  set qd.data = ".$queueWeight."
                where qd.keyword = 'weight'
                  and qd.id = ".$this->queueNum;
     $result = mysql_query($query,$db->getConnection());
-
     if (!$result) {
-      throw new Exception(mysql_error($db->getConnection()));
+      $this->exception( mysql_error($db->getConnection()) );
+    }
+    // вес в конфигах астера
+    $exec = 'bin/queue_weight.sh '.$this->queueNum.' '.$queueWeight;
+    $err = exec($execString);
+    if ($err) {
+      $this->exception($err);
     }
 
-    $execString = 'bin/queue_weight.sh '.$this->queueNum.' '.$queueWeight;
-    $output = exec($execString);
-
-    self::reloadModule();
     return true;
   }
 
@@ -77,4 +84,9 @@ class Queue extends Model {
     $output = exec($execString);
   }
 
+  private function checkQueueExists() {
+    if (!$this->queueNum) {
+      $this->exception( 'Queue num not set in constructor' );
+    }
+  }
 }
