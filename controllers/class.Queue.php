@@ -25,17 +25,15 @@ class QueueController extends BaseController {
         $this->replaceMembers( $json['req']['queue_num'], $json['data']['weight'] );
         break;
       default:
-        $this->err('Act not recognized');
+        $this->exception('Act not recognized');
       break;
     }
   }
 
   private function getQueueList() {
-    $list = Queue::getQueueList();
-
     echo json_encode(array(
       'ok'   => true,
-      'data' => $list
+      'data' => Queue::getQueueList()
     ));
   }
 

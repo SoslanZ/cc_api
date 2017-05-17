@@ -16,7 +16,6 @@ class Queue extends Model {
 
   public static function getQueueList() {
     $db = new db(new asteriskDataBase());
-
     $query = "SELECT qc.extension,
                      qc.descr,
                      qd.data
@@ -24,11 +23,9 @@ class Queue extends Model {
                      queues_details qd
                WHERE qd.keyword = 'weight'
                  and qc.extension = qd.id";
-
     $result = mysql_query($query,$db->getConnection());
-
     if (!$result) {
-      throw new Exception('mysql query run error');
+      $this->exception( mysql_error($db->getConnection()) );
     }
     $resp = array();
     while ($row = mysql_fetch_array($result, MYSQL_ASSOC)){
@@ -38,8 +35,8 @@ class Queue extends Model {
         'weight'      => $row['data']
       ));
     }
-    return $resp;
 
+    return $resp;
   }
 
   public function setWeight($queueWeight) {
