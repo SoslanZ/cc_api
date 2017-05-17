@@ -95,8 +95,9 @@ class Queue extends Model {
                                            "'.$key.'",
                                            "'.$value.'",
                                            0)') ) {
+        $err = mysql_error($db->getConnection());
         $db->execute('delete from queues_config where extension = '.$queueNum);
-        $this->exception( mysql_error($db->getConnection()) );
+        $this->exception( $err );
       }
     }
 
