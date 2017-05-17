@@ -41,6 +41,9 @@ class Ann extends DialPlan {
 
   // create new announcement
   public function create($__description, $__recId,$__recName,$__queueNum) {
+    if (!$__description || !$__recId || !$__recName || !$__queueNum) {
+      $this->exception(some params not set);
+    }
     $db = new db(new asteriskDataBase());
     $query = "insert into announcement( description,allow_skip,post_dest,return_ivr,noanswer,repeat_msg,recording_id)
                                 values('$__description','1','ext-queues,".$__queueNum.",1','0','0','','$__recId')";
