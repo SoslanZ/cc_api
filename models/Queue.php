@@ -80,7 +80,7 @@ class Queue extends Model {
     if ( mysql_num_rows($db->execute('select * from queues_config where extension = '.$queueNum)) > 0 ) {
       $this->exception( 'Queue num already exists' );
     }
-    if ( mysql_num_rows($db->execute('select * from queues_config where descr = '.$queueName)) > 0 ) {
+    if ( mysql_num_rows($db->execute('select * from queues_config where descr = "'.$queueName.'"')) > 0 ) {
       $this->exception( 'Queue name already exists' );
     }
     // Транзакция must have
