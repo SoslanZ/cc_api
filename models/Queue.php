@@ -71,8 +71,54 @@ class Queue extends Model {
 
   }
 
-  public function create() {
+  public function create($queueNum,$queueName,$queueMembers) {
+    if (!$queueNum || !$queueName) {
+      $this->exception( $this->_ERR_PARAMS );
+    }
+    $db = new db(new asteriskDataBase());
+    // вернемся с ошибкой если подобная очередь уже есть
+    if ( mysql_num_rows($db->execute('select * from queues_config where extension = '.$queueNum)) > 0 ) {
+      $this->exception( 'Queue num already exists' );
+    }
+    if ( mysql_num_rows($db->execute('select * from queues_config where descr = '.$queueName)) > 0 ) {
+      $this->exception( 'Queue name already exists' );
+    }
+    // Транзакция must have
+    $db->beginTransaction();
+    $db->execute('insert into queues_config(extension,descr,ringing,ivr_id,dest,cwignore,agentannounce_id,joinannounce_id,queuewait,use_queue_context)
+                                 values("'.$queueNum.'","'.$queueName.'",1,"none","app-blackhole,hangup,1",0,0,0,0,0 )');
 
+    foreach($this->getQueueKeyWords() as $key => $value) {
+      $db->execute('insert into queues_details(id,keyword,data,flags)
+                                    values("'.$queueNum.'",
+                                           "'.$key.'",
+                                           "'.$value.'",
+                                           0)');
+    }
+
+    $phoneList='';
+    foreach($queueMembers as $key => $value) {
+      $phone_num = strlen($value['phone']) == 10?('7'.$value['phone']):$value['phone'];
+      $i++;
+      $phoneList .= $phone_num;
+      $db->execute('insert into queues_details(id,keyword,data,flags)
+                          values("'.$queueNum.'",
+                                 "member",
+                                 "Local/'.$phone_num.'@from-queue/n,0",
+                                 '.($i-1).')');
+    }
+
+    // run BINs
+    $exec = 'bin/queue.sh add '.$queueNum.' '.$phoneList;
+    $err = exec($exec);
+    if ($err) {
+      $db->rollback();
+      $this->exception($err);
+    }
+
+    $db->commit();
+
+    return true;
   }
 
   public function delete() {
@@ -88,5 +134,34 @@ class Queue extends Model {
     if (!$this->queueNum) {
       $this->exception( 'Queue num not set in constructor' );
     }
+  }
+
+  private function getQueueKeyWords() {
+    return array(
+      "announce-frequency" => "0",
+      "announce-holdtime" => "no" ,
+      "announce-position" => "no",
+      "autofill" => "no",
+      "eventmemberstatus" => "no",
+      "eventwhencalled" => "no",
+      "joinempty" => "yes",
+      "leavewhenempty" => "no",
+      "maxlen" => "0",
+      "monitor-format" => "",
+      "monitor-join" => "yes",
+      "periodic-announce-frequency" => "0",
+      "queue-callswaiting" => "silence/1",
+      "queue-thankyou" => "",
+      "queue-thereare" => "silence/1",
+      "queue-youarenext" => "silence/1",
+      "reportholdtime" => "no",
+      "retry" => "0",
+      "ringinuse" => "yes",
+      "servicelevel" => "60",
+      "strategy" => "ringall",
+      "timeout" => "60",
+      "weight" => "0",
+      "wrapuptime" => "0"
+    );
   }
 }

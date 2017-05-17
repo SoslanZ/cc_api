@@ -16,10 +16,10 @@ class QueueController extends BaseController {
         $this->setWeight( $json['req']['queue_num'], $json['data']['weight'] );
         break;
       case 'create':
-        //$this->;
+        $this->createQueue( $json['data'] );
         break;
       case 'delete':
-        //$this->;
+        $this->deleteQueue( $json['req'] );
         break;
       case 'replace_members':
         $this->replaceMembers( $json['req']['queue_num'], $json['data']['weight'] );
@@ -44,17 +44,27 @@ class QueueController extends BaseController {
       echo json_encode(array(
         'ok' => true
       ));
-    };
+    }
   }
 
-  private function createQueue() {
-    $q = new Queue($queueNum);
-    $q->create();
+  private function createQueue($data) {
+    $q = new Queue();
+    if ( $q->create($data['queue_num'],$data['queue_name'],$data['phones']) ) {
+      Queue::reloadModule();
+      echo json_encode(array(
+        'ok' => true
+      ));
+    }
   }
 
-  private function deleteQueue() {
-    $q = new Queue($queueNum);
-    $q->delete();
+  private function deleteQueue($req) {
+    $q = new Queue($req['queue_num']);
+    if ( $q->delete() ) {
+      Queue::reloadModule();
+      echo json_encode(array(
+        'ok' => true
+      ));
+    }
   }
 
   private function replaceMembers($queueNum,$queueMembers) {

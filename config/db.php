@@ -28,4 +28,13 @@ class db {
     return mysql_query("ROLLBACK",$this->getConnection());
   }
 
+  public function execute($query) {
+    $result = mysql_query($query,$this->getConnection());
+    if ( !$result ) {
+      $this->rollback();
+      $this->exception( mysql_error($db->getConnection()) );
+    }
+    return $result;
+  }
+
 }
