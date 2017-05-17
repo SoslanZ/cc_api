@@ -108,7 +108,7 @@ class Queue extends Model {
       $phone_num = strlen($value['phone']) == 10?('7'.$value['phone']):$value['phone'];
       $i++;
       $phoneList .= $phone_num;
-      if ( !$db->execute('insert into 1queues_details(id,keyword,data,flags)
+      if ( !$db->execute('insert into queues_details(id,keyword,data,flags)
                           values("'.$queueNum.'",
                                  "member",
                                  "Local/'.$phone_num.'@from-queue/n,0",
@@ -121,14 +121,13 @@ class Queue extends Model {
     }
 
     // run BINs
-    /*$exec = 'bin/queue.sh add '.$queueNum.' '.$phoneList;
+    $exec = 'bin/queue.sh add '.$queueNum.' '.$phoneList;
     $err = exec($exec);
     if ($err) {
-      $db->rollback();
+      $db->execute('delete from queues_details where id = '.$queueNum);
+      $db->execute('delete from queues_config where extension = '.$queueNum);
       $this->exception($err);
-    }*/
-
-    $db->commit();
+    }
 
     return true;
   }
