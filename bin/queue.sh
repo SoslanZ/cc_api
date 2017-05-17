@@ -1,6 +1,6 @@
 #!/bin/bash
 
-EXT_FILE_PATH=queue.conf
+EXT_FILE_PATH=/etc/asterisk/queues_additional.conf
 ACT=$1
 QUEUE=$2
 ARG_COUNT=0
