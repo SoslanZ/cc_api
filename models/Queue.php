@@ -99,6 +99,7 @@ class Queue extends Model {
     }
 
     $phoneList='';
+    $i=0;
     foreach($queueMembers as $key => $value) {
       $phone_num = strlen($value['phone']) == 10?('7'.$value['phone']):$value['phone'];
       $i++;
