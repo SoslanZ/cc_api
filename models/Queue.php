@@ -90,12 +90,13 @@ class Queue extends Model {
     }
 
     foreach($this->getQueueKeyWords() as $key => $value) {
-      if ( !$db->execute('insert into 1queues_details(id,keyword,data,flags)
+      if ( !$db->execute('insert into queues_details(id,keyword,data,flags)
                                     values("'.$queueNum.'",
                                            "'.$key.'",
                                            "'.$value.'",
                                            0)') ) {
         $err = mysql_error($db->getConnection());
+        $db->execute('delete from queues_details where id = '.$queueNum);
         $db->execute('delete from queues_config where extension = '.$queueNum);
         $this->exception( $err );
       }
@@ -107,11 +108,16 @@ class Queue extends Model {
       $phone_num = strlen($value['phone']) == 10?('7'.$value['phone']):$value['phone'];
       $i++;
       $phoneList .= $phone_num;
-      $db->execute('insert into queues_details(id,keyword,data,flags)
+      if ( !$db->execute('insert into 1queues_details(id,keyword,data,flags)
                           values("'.$queueNum.'",
                                  "member",
                                  "Local/'.$phone_num.'@from-queue/n,0",
-                                 '.($i-1).')');
+                                 '.($i-1).')') ) {
+        $err = mysql_error($db->getConnection());
+        $db->execute('delete from queues_details where id = '.$queueNum);
+        $db->execute('delete from queues_config where extension = '.$queueNum);
+        $this->exception( $err );
+      }
     }
 
     // run BINs
