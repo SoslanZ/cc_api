@@ -26,10 +26,10 @@ class Ann extends DialPlan {
 
     // update data in extensions file
     if ($__recName) {
-      $exec = 'bin/ann_rec_set_.sh add '.$this->annId.' '.$__recName;
+      $exec = 'bin/ann_rec_set.sh add '.$this->annId.' '.$__recName;
     } else {
       // if RecName is empty, remove record from hi ann
-      $exec = 'bin/ann_rec_set_.sh rm '.$this->annId;
+      $exec = 'bin/ann_rec_set.sh rm '.$this->annId;
     }
     $err = exec($exec);
     if ($err) {
