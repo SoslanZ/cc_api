@@ -59,7 +59,7 @@ class Queue extends Model {
     }
     // вес в конфигах астера
     $exec = 'bin/queue_weight.sh '.$this->queueNum.' '.$queueWeight;
-    $err = exec($execString);
+    $err = exec($exec);
     if ($err) {
       $this->exception($err);
     }
