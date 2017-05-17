@@ -91,11 +91,14 @@ class Queue extends Model {
     }
 
     foreach($this->getQueueKeyWords() as $key => $value) {
-      $db->execute('insert into queues_details(id,keyword,data,flags)
+      if ( !$db->execute('insert into 1queues_details(id,keyword,data,flags)
                                     values("'.$queueNum.'",
                                            "'.$key.'",
                                            "'.$value.'",
-                                           0)');
+                                           0)') ) {
+        $db->rollback();
+        $this->exception( mysql_error($db->getConnection()) );
+      }
     }
 
     $phoneList='';
