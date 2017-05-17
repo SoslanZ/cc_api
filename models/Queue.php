@@ -71,7 +71,7 @@ class Queue extends Model {
 
   }
 
-  public function create($queueNum,$queueName,$queueMembers) {
+  /*public function create($queueNum,$queueName,$queueMembers) {
     if (!$queueNum || !$queueName) {
       $this->exception( $this->_ERR_PARAMS );
     }
@@ -130,11 +130,11 @@ class Queue extends Model {
     }
 
     return true;
-  }
+  }*/
 
-  public function delete() {
+  /*public function delete() {
 
-  }
+  }*/
 
   public static function reloadModule() {
     $execString = "asterisk -rx 'module reload app_queue.so'";

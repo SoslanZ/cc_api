@@ -48,23 +48,25 @@ class QueueController extends BaseController {
   }
 
   private function createQueue($data) {
-    $q = new Queue();
+    $this->exception('not released');
+    /*$q = new Queue();
     if ( $q->create($data['queue_num'],$data['queue_name'],$data['phones']) ) {
       Queue::reloadModule();
       echo json_encode(array(
         'ok' => true
       ));
-    }
+    }*/
   }
 
   private function deleteQueue($req) {
-    $q = new Queue($req['queue_num']);
+    $this->exception('not released');
+    /*$q = new Queue($req['queue_num']);
     if ( $q->delete() ) {
       Queue::reloadModule();
       echo json_encode(array(
         'ok' => true
       ));
-    }
+    }*/
   }
 
   private function replaceMembers($queueNum,$queueMembers) {
