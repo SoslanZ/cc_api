@@ -107,7 +107,7 @@ class Queue extends Model {
     foreach($queueMembers as $key => $value) {
       $phone_num = strlen($value['phone']) == 10?('7'.$value['phone']):$value['phone'];
       $i++;
-      $phoneList .= $phone_num;
+      $phoneList .= ' '.$phone_num;
       if ( !$db->execute('insert into queues_details(id,keyword,data,flags)
                           values("'.$queueNum.'",
                                  "member",
@@ -121,7 +121,7 @@ class Queue extends Model {
     }
 
     // run BINs
-    $exec = 'bin/queue.sh add '.$queueNum.' '.$phoneList;
+    $exec = 'bin/queue.sh add '.$queueNum.$phoneList;
     $err = exec($exec);
     if ($err) {
       $db->execute('delete from queues_details where id = '.$queueNum);
