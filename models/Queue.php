@@ -84,17 +84,18 @@ class Queue extends Model {
       $this->exception( 'Queue name already exists' );
     }
 
-    if ( !$db->execute('insert into 1queues_config(extension,descr,ringing,ivr_id,dest,cwignore,agentannounce_id,joinannounce_id,queuewait,use_queue_context)
+    if ( !$db->execute('insert into queues_config(extension,descr,ringing,ivr_id,dest,cwignore,agentannounce_id,joinannounce_id,queuewait,use_queue_context)
                                  values("'.$queueNum.'","'.$queueName.'",1,"none","app-blackhole,hangup,1",0,0,0,0,0 )') ) {
       $this->exception( mysql_error($db->getConnection()) );
     }
 
     foreach($this->getQueueKeyWords() as $key => $value) {
-      if ( !$db->execute('insert into queues_details(id,keyword,data,flags)
+      if ( !$db->execute('insert into 1queues_details(id,keyword,data,flags)
                                     values("'.$queueNum.'",
                                            "'.$key.'",
                                            "'.$value.'",
                                            0)') ) {
+        $db->execute('delete from queues_config where extension = '.$queueNum);
         $this->exception( mysql_error($db->getConnection()) );
       }
     }
