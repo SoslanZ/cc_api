@@ -29,12 +29,7 @@ class db {
   }
 
   public function execute($query) {
-    $result = mysql_query($query,$this->getConnection());
-    if ( !$result ) {
-      $this->rollback();
-      throw new Exception( mysql_error($this->getConnection()) );
-    }
-    return $result;
+    return mysql_query($query,$this->getConnection());
   }
 
 }
