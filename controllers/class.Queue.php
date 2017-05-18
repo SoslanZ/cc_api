@@ -24,7 +24,7 @@ class QueueController extends BaseController {
         $this->deleteQueue( $json['req'] );
         break;
       case 'replace_members':
-        $this->replaceMembers( $json['req']['queue_num'], $json['data']['weight'] );
+        $this->replaceMembers( $json['req']['queue_num'], $json['data']['phones'] );
         break;
       default:
         $this->exception( $this->_ERR_ACT_RECOGNIZE );
@@ -75,7 +75,14 @@ class QueueController extends BaseController {
 
   private function replaceMembers($queueNum,$queueMembers) {
     $q = new Queue($queueNum);
-    $q->replaceMembers($queueMembers);
+    if ( $q->replaceMembers($queueMembers) ) {
+      Queue::reloadModule();
+      echo json_encode(array(
+        'ok' => true
+      ));
+    }
+
+
   }
 
 }

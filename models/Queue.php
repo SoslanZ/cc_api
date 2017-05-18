@@ -68,7 +68,24 @@ class Queue extends Model {
   }
 
   public function replaceMembers($queueMembers) {
+    $this->isQueueSetInConstructor();
+    $db = new db(new asteriskDataBase());
+    $result = $db->execute('delete from queues_details where keyword="member" and id='.$this->queueNum);
+    if (!result) {
+      $this->exception( mysql_error( $db->getConnection() ) );
+    }
+    $phoneList = '';
+    foreach($queueMembers as $key => $value) {
+      $phoneList.=' '.$value['phone'];
+    }
 
+    // run bin
+    $exec = 'bin/queue_member.sh '.$this->queueNum.' '.$phoneList;
+    $err = exec($exec);
+    if ($err) {
+      $this->exception($err);
+    }
+    return true;
   }
 
   public function create($queueNum,$queueName,$queueMembers) {
