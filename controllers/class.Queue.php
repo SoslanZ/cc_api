@@ -2,6 +2,7 @@
 
 require 'controllers/class.Base.php';
 require 'models/Queue.php';
+require 'models/DialPlan.php'
 
 class QueueController extends BaseController {
 
@@ -52,6 +53,7 @@ class QueueController extends BaseController {
     $q = new Queue();
     if ( $q->create($data['queue_num'],$data['queue_name'],$data['phones']) ) {
       Queue::reloadModule();
+      DialPlan::dialPlanReloadNow();
       echo json_encode(array(
         'ok' => true
       ));
@@ -63,6 +65,7 @@ class QueueController extends BaseController {
     $q = new Queue($req['queue_num']);
     if ( $q->delete() ) {
       Queue::reloadModule();
+      DialPlan::dialPlanReloadNow();
       echo json_encode(array(
         'ok' => true
       ));

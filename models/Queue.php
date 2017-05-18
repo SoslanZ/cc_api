@@ -43,7 +43,7 @@ class Queue extends Model {
   * Устанавливает вес очереди
   */
   public function setWeight($queueWeight) {
-    $this->checkQueueExists();
+    $this->isQueueSetInConstructor();
     if (!$queueWeight) {
       $this->exception( $this->_ERR_PARAMS );
     }
@@ -133,7 +133,16 @@ class Queue extends Model {
   }
 
   public function delete() {
+    $this->isQueueSetInConstructor();
+    // del from db
+    $db = new db(new asteriskDataBase());
+    $db->execute('delete from queues_details where id = '.$queueNum);
+    $db->execute('delete from queues_config where extension = '.$queueNum);
+    // run BINS
+    $exec = 'bin/queue.sh rm '.$this->queueNum;
+    $err = exec($exec);
 
+    return true;
   }
 
   public static function reloadModule() {
@@ -141,7 +150,7 @@ class Queue extends Model {
     $output = exec($execString);
   }
 
-  private function checkQueueExists() {
+  private function isQueueSetInConstructor() {
     if (!$this->queueNum) {
       $this->exception( 'Queue num not set in constructor' );
     }
