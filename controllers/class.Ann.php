@@ -1,5 +1,4 @@
 <?php
-
 require 'controllers/class.Base.php';
 require 'models/DialPlan.php';
 require 'models/Ann.php';

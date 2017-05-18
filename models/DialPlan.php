@@ -1,5 +1,4 @@
 <?php
-
 #require 'models/class.Model.php';
 
 class DialPlan extends Model {
