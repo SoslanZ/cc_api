@@ -1,5 +1,5 @@
 <?php
-require 'models/DialPlan.php';
+#require 'models/DialPlan.php';
 require 'config/db_asterisk.php';
 require 'config/db.php';
 

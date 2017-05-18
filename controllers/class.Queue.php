@@ -42,7 +42,7 @@ class QueueController extends BaseController {
   private function setWeight($queueNum,$queueWeight) {
     $q = new Queue($queueNum);
     if ( $q->setWeight($queueWeight) ) {
-      Queue::reloadModule();
+      Queue::reloadModuleNow();
       echo json_encode(array(
         'ok' => true
       ));
@@ -53,8 +53,8 @@ class QueueController extends BaseController {
     //$this->exception('not released');
     $q = new Queue();
     if ( $q->create($data['queue_num'],$data['queue_name'],$data['phones']) ) {
-      Queue::reloadModule();
-      DialPlan::dialPlanReloadNow();
+      Queue::reloadModuleNow();
+      DialPlan::reloadDialPlanNow();
       echo json_encode(array(
         'ok' => true
       ));
@@ -65,8 +65,8 @@ class QueueController extends BaseController {
     //$this->exception('not released');
     $q = new Queue($req['queue_num']);
     if ( $q->delete() ) {
-      Queue::reloadModule();
-      DialPlan::dialPlanReloadNow();
+      Queue::reloadModuleNow();
+      DialPlan::reloadDialPlanNow();
       echo json_encode(array(
         'ok' => true
       ));
@@ -76,7 +76,7 @@ class QueueController extends BaseController {
   private function replaceMembers($queueNum,$queueMembers) {
     $q = new Queue($queueNum);
     if ( $q->replaceMembers($queueMembers) ) {
-      Queue::reloadModule();
+      Queue::reloadModuleNow();
       echo json_encode(array(
         'ok' => true
       ));

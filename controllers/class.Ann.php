@@ -1,6 +1,7 @@
 <?php
 
 require 'controllers/class.Base.php';
+require 'models/DialPlan.php';
 require 'models/Ann.php';
 
 class AnnController extends BaseController {
@@ -36,7 +37,7 @@ class AnnController extends BaseController {
         $this->exception($this->_ERR_PROCESSING);
       };
     }
-    Ann::dialPlanReloadNow();
+    Ann::reloadDialPlanNow();
     echo json_encode(array(
       'ok' => true
     ));
@@ -52,7 +53,7 @@ class AnnController extends BaseController {
                        $data['rec_name'],
                        $data['queue_num'] );
     if ( $annModel->annId ) {
-      Ann::dialPlanReloadNow();
+      Ann::reloadDialPlanNow();
       echo json_encode(array(
         'ok' => true,
         'data' => array(
@@ -68,7 +69,7 @@ class AnnController extends BaseController {
   private function deleteAnn($data) {
     $annModel = new Ann($data['ann_id']);
     if ( $annModel->delete() ) {
-      Ann::dialPlanReloadNow();
+      Ann::reloadDialPlanNow();
       echo json_encode(array(
         'ok' => true
       ));

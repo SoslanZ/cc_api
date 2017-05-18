@@ -172,7 +172,7 @@ class Queue extends Model {
     return true;
   }
 
-  public static function reloadModule() {
+  public static function reloadModuleNow() {
     $execString = "asterisk -rx 'module reload app_queue.so'";
     $output = exec($execString);
   }
