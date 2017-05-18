@@ -1,5 +1,5 @@
 <?php
-require 'models/class.Model.php';
+#require 'models/class.Model.php';
 require 'config/db_asterisk.php';
 require 'config/db.php';
 

@@ -1,6 +1,7 @@
 <?php
 
 require 'controllers/class.Base.php';
+require 'models/class.Model.php';
 require 'models/Queue.php';
 require 'models/DialPlan.php';
 

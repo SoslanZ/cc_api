@@ -1,6 +1,6 @@
 <?php
 
-require 'models/class.Model.php';
+#require 'models/class.Model.php';
 
 class DialPlan extends Model {
   public static function dialPlanReloadNow() {
