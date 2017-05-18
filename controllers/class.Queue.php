@@ -2,7 +2,7 @@
 
 require 'controllers/class.Base.php';
 require 'models/Queue.php';
-require 'models/DialPlan.php'
+require 'models/DialPlan.php';
 
 class QueueController extends BaseController {
 
