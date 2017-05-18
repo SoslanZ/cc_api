@@ -70,13 +70,23 @@ class Queue extends Model {
   public function replaceMembers($queueMembers) {
     $this->isQueueSetInConstructor();
     $db = new db(new asteriskDataBase());
-    $result = $db->execute('delete from queues_details where keyword="member" and id='.$this->queueNum);
-    if (!$result) {
+    $phoneList = '';
+    $i=0;
+    if ( !$db->execute('delete from queues_details where keyword="member" and id='.$this->queueNum) ) {
       $this->exception( mysql_error( $db->getConnection() ) );
     }
-    $phoneList = '';
     foreach($queueMembers as $key => $value) {
-      $phoneList.=' '.$value['phone'];
+      $phone_num = strlen($value['phone']) == 10?('7'.$value['phone']):$value['phone'];
+      $i++;
+      $phoneList .= ' '.$phone_num;
+      if ( !$db->execute('insert into queues_details(id,keyword,data,flags)
+                          values("'.$this->queueNum.'",
+                                 "member",
+                                 "Local/'.$phone_num.'@from-queue/n,0",
+                                 '.($i-1).')') ) {
+
+        $this->exception( mysql_error($db->getConnection()) );
+      }
     }
 
     // run bin
