@@ -136,8 +136,8 @@ class Queue extends Model {
     $this->isQueueSetInConstructor();
     // del from db
     $db = new db(new asteriskDataBase());
-    $db->execute('delete from queues_details where id = '.$queueNum);
-    $db->execute('delete from queues_config where extension = '.$queueNum);
+    $db->execute('delete from queues_details where id = '.$this->queueNum);
+    $db->execute('delete from queues_config where extension = '.$this->queueNum);
     // run BINS
     $exec = 'bin/queue.sh rm '.$this->queueNum;
     $err = exec($exec);
