@@ -71,7 +71,7 @@ class Queue extends Model {
     $this->isQueueSetInConstructor();
     $db = new db(new asteriskDataBase());
     $result = $db->execute('delete from queues_details where keyword="member" and id='.$this->queueNum);
-    if (!result) {
+    if (!$result) {
       $this->exception( mysql_error( $db->getConnection() ) );
     }
     $phoneList = '';
