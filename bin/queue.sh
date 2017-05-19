@@ -63,9 +63,9 @@ exten => '$QUEUE',1,Goto(from-internal,${QAGENT},1)' $EXT_FILE_PATH
 
 function delete_queue {
   sed -i '/\['$QUEUE'\]/,/^$/ { /.*/d }' $QUEUE_FILE_PATH
-  sed -i '/exten => '$QUEUE,'/d' $EXT_FILE_PATH
-  sed -i '/exten => '$QUEUE*,'/d' $EXT_FILE_PATH
-  sed -i '/exten => '$QUEUE**,'/d' $EXT_FILE_PATH
+  sed -i '/exten => '$QUEUE',/d' $EXT_FILE_PATH
+  sed -i '/exten => '$QUEUE'*,/d' $EXT_FILE_PATH
+  sed -i '/exten => '$QUEUE'**,/d' $EXT_FILE_PATH
 }
 
 function add_member {
