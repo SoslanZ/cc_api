@@ -4,5 +4,6 @@
 class DialPlan extends Model {
   public static function reloadDialPlanNow() {
     exec( "asterisk -rx 'dialplan reload'" );
+    sleep(5);
   }
 }
