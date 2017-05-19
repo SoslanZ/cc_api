@@ -174,7 +174,7 @@ class Queue extends Model {
 
   public static function reloadModuleNow() {
     exec( "asterisk -rx 'module reload app_queue.so'" );
-    sleep(5);
+    sleep(2);
   }
 
   private function isQueueSetInConstructor() {
