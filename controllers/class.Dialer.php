@@ -7,18 +7,23 @@ require 'models/AutoInformer.php';
 class DialerController extends BaseController {
 
   public function addMultiCb() {
-    //parent::err("Method not ready for production");
-    //exit();
-    // TODO
+    // array for response report
+    $report = array();
     foreach ($this->json['callBacks'] as $key => $value) {
+      $el = array();
       $cb = Callback::load($value);
+      $el['callerId'] = $cb->getCallerId();
+      // try to add callback
       $err = $cb->add();
-      if ($err) {
-        parent::err($err);
-        return;
-      }
+        // errors report
+        if ($err) {
+          $el['err'] = $err;
+        } else {
+          $el['err'] = "";
+        }
+      array_push($report,$el);
     }
-    parent::ok();
+    parent::ok($report);
   }
 
   public function getMultiCbStatus() {

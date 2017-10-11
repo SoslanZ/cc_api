@@ -39,7 +39,7 @@ class Callback extends Model {
   public function getCallerId() {return $this->callerId;}
 
   /**
-  * Call line24 integration script for callback add
+  * Call integration script for callback add
   */
   public function add() {
     if (!$this->queueId || !$this->callerId) {
