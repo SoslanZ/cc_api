@@ -48,11 +48,8 @@ class Callback extends Model {
       throw new Exception("Cannot add callback, some parameters missing", 1);
       return;
     } else {
-      var_dump($this->queueId);
-      var_dump($this->callerId);
-      echo $this->queueId, $this->callerId;
       require '../../cc-line24/inc/db_functions.inc.php';
-      queue_callback("4001", "89125212573", 0);
+      queue_callback($this->queueId, $this->callerId, 0);
     }
   }
 
