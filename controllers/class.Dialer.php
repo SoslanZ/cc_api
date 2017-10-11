@@ -1,16 +1,16 @@
 <?php
 require 'controllers/class.Base.php';
-require 'models/class.Model.php';
-require 'models/Callback.php';
-require 'models/Autoinformer.php';
+//require 'models/class.Model.php';
+//require 'models/Callback.php';
+//require 'models/Autoinformer.php';
 
 class DialerController extends BaseController {
 
   public function run() {
-    echo "Hello";
+    echo "Hello from Dialer";
   }
 
-  public function addMultiCb() {
+  /*public function addMultiCb() {
     //parent::err("Method not ready for production");
     //exit();
     // TODO
@@ -32,5 +32,5 @@ class DialerController extends BaseController {
     }
     parent::ok($report);
   }
-
+*/
 }
