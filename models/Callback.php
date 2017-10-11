@@ -46,9 +46,9 @@ class Callback extends Model {
       throw new Exception("Cannot add callback, some parameters missing", 1);
       return;
     } else {
-      $out = exec("php ./scripts/add_callback.php ".$this->queueId." ".$this->callerId);
-      if ($out) {
-        return $out;
+      exec("php ./scripts/add_callback.php ".$this->queueId." ".$this->callerId." 2>&1", $output, $return_var);
+      if ($output) {
+        return $output;
       }
       // CANT CALL this in this context
       //queue_callback($this->queueId, $this->callerId, 0);
