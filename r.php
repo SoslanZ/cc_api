@@ -1,6 +1,14 @@
 <?php
-// Asterisk API Router
+//
+// ***  ASTERISK API ROUTER ***
+//
 
+/**
+ * HOW TO USE?
+ * 
+ * set controller name in get param ("c" variable) and pass json to POST
+ * 
+ */
 $_ERR_CNTR_NOT_SET   = 'Controller not set in GET params';
 $_ERR_CNTR_NOT_EXIST = 'Controller not exist';
 

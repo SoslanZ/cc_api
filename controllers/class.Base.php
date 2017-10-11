@@ -12,12 +12,41 @@ class BaseController {
     $this->json = $__json;
   }
 
+  /**
+  *  MAIN RUN FUNCTION
+  *    call method named in POST JSON in "act" field
+  */
+
   public function run() {
-    throw new Exception($this->_ERR_RUN_NOT_EXIST);
+    $actionMethod = $this->json['act'];
+    if (method_exists($this,$actionMethod)) {
+
+      // reflection method call
+      $this->$actionMethod();
+
+    } else {
+      $this->exception($this->_ERR_ACT_RECOGNIZE);
+    }
+
   }
 
   protected function exception($msg) {
     throw new Exception($msg);
+  }
+
+  protected function ok($data = null, $msg = null) {
+    echo json_encode(array(
+      'ok' => true,
+      'msg' => $msg,
+      'data' => $data
+    ));
+  }
+
+  protected function err($msg = null) {
+    echo json_encode(array(
+      'ok' => false,
+      'msg' => $msg
+    ));
   }
 
 }
