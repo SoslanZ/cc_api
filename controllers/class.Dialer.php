@@ -2,7 +2,7 @@
 require 'controllers/class.Base.php';
 require 'models/class.Model.php';
 require 'models/Callback.php';
-require 'models/Autoinformer.php';
+require 'models/AutoInformer.php';
 
 class DialerController extends BaseController {
 
