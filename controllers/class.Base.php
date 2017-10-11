@@ -18,7 +18,6 @@ class BaseController {
   */
 
   public function run() {
-    exit();
     $actionMethod = $this->json['act'];
     if (method_exists($this,$actionMethod)) {
 

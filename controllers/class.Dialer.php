@@ -6,6 +6,10 @@ require 'models/Autoinformer.php';
 
 class DialerController extends BaseController {
 
+  public function run() {
+    echo "Hello";
+  }
+
   public function addMultiCb() {
     //parent::err("Method not ready for production");
     //exit();
