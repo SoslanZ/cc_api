@@ -1,7 +1,7 @@
 <?php
 //require 'config/db_asterisk.php';
 //require 'config/db.php';
-//require '../../cc-line24/inc/db_functions.inc.php';
+require '../../cc-line24/inc/db_functions.inc.php';
 
 class Callback extends Model {
 
@@ -52,7 +52,7 @@ class Callback extends Model {
       var_dump($this->queueId);
       var_dump($this->callerId);
       echo $this->queueId, $this->callerId;
-      //queue_callback($this->queueId, $this->callerId, 0);
+      queue_callback($this->queueId, $this->callerId, 0);
     }
   }
 
