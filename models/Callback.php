@@ -1,7 +1,4 @@
 <?php
-//require 'config/db_asterisk.php';
-//require 'config/db.php';
-require_once '../../cc-line24/inc/db_functions.inc.php';
 
 class Callback extends Model {
 
@@ -49,7 +46,12 @@ class Callback extends Model {
       throw new Exception("Cannot add callback, some parameters missing", 1);
       return;
     } else {
-      queue_callback($this->queueId, $this->callerId, 0);
+      $out = exec("php ./scripts/add_callback.php ".$this->queueId." ".$this->callerId);
+      if ($out) {
+        return $out;
+      }
+      // CANT CALL this in this context
+      //queue_callback($this->queueId, $this->callerId, 0);
     }
   }
 

@@ -12,7 +12,11 @@ class DialerController extends BaseController {
     // TODO
     foreach ($this->json['callBacks'] as $key => $value) {
       $cb = Callback::load($value);
-      $cb->add();
+      $err = $cb->add();
+      if ($err) {
+        parent::err($err);
+        return;
+      }
     }
     parent::ok();
   }
