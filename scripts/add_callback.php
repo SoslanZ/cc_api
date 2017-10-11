@@ -1,8 +1,8 @@
 <?php
 require '../../../cc-line24/inc/db_functions.inc.php';
 
-$QUEUE_ID = check_value($argv[0]);
-$CALLERID = check_value($argv[1]);
+$QUEUE_ID = check_value($argv[1]);
+$CALLERID = check_value($argv[2]);
 
 function check_value($value) {
   $value = trim($value);
