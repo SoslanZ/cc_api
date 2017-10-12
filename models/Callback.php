@@ -6,10 +6,6 @@ class Callback extends Model {
 
   private $queueId;
   private $callerId;
-  private $status;
-
-  const CALL_FINISH = 0;
-  const CALL_EXISTS = 1;
 
   static private $callBackInstance;
 
@@ -68,7 +64,7 @@ class Callback extends Model {
                 FROM rt_calls rc
                WHERE rc.callerid = '$this->callerId'
                  and rc.hangupdate = 0";
-                 
+
     return mysql_num_rows($db->execute($query));
   }
 

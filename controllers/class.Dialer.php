@@ -13,6 +13,7 @@ class DialerController extends BaseController {
       $el = array();
       $cb = Callback::load($value);
       $el['callerId'] = $cb->getCallerId();
+      $el['queueId'] = $cb->getQueueId();
       // try to add callback
       $err = $cb->add();
         // errors report
