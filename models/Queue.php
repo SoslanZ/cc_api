@@ -6,6 +6,7 @@ require 'config/db.php';
 class Queue extends Model {
 
   private $queueNum;
+  const QUEUE_FREE_MEMBER_PATTERN = '/^\d+ has (\d+) calls \(max (\d+)\)/';
 
   function __construct($__queueNum=null) {
     $this->queueNum = $__queueNum;
@@ -213,7 +214,14 @@ class Queue extends Model {
   }
 
   public function getFreeMemberCount() {
+    $this->isQueueSetInConstructor();
     exec( "asterisk -rx 'queue show ".$this->queueNum."' 2>&1" ,$output, $return_var);
-    return $output;
+    if (is_array($output)) {
+      // process only first row as line
+      preg_match(QUEUE_FREE_MEMBER_PATTERN, $output[0], $matches);
+      return $matches[1].'/'.$matches[2];
+    } else {
+      $this->exception( 'asterisk output is not array, cant check free membmers' );
+    }
   }
 }
