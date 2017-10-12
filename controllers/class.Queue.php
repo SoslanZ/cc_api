@@ -25,6 +25,9 @@ class QueueController extends BaseController {
       case 'replace_members':
         $this->replaceMembers( $json['req']['queue_num'], $json['data']['phones'] );
         break;
+      case 'getFreeMemberCount':
+        $this->getFreeMemberCount($json['req']['queue_num']);
+        break;
       default:
         $this->exception( $this->_ERR_ACT_RECOGNIZE );
       break;
@@ -80,8 +83,11 @@ class QueueController extends BaseController {
         'ok' => true
       ));
     }
+  }
 
-
+  protected function getFreeMemberCount($queueNum) {
+    $q = new Queue($queueNum);
+    parent::ok( $q->getFreeMemberCount() );
   }
 
 }

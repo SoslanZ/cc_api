@@ -211,4 +211,9 @@ class Queue extends Model {
       "wrapuptime" => "0"
     );
   }
+
+  public function getFreeMemberCount() {
+    exec( "asterisk -rx 'queue show ".$this->queueNum."' 2>&1" ,$output, $return_var);
+    return $output;
+  }
 }
