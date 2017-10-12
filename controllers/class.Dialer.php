@@ -12,6 +12,7 @@ class DialerController extends BaseController {
     foreach ($this->json['callBacks'] as $key => $value) {
       $el = array();
       $cb = Callback::load($value);
+      $el['externalId'] = $cb->getExternalId();
       $el['callerId'] = $cb->getCallerId();
       $el['queueId'] = $cb->getQueueId();
       // try to add callback
@@ -32,6 +33,7 @@ class DialerController extends BaseController {
     foreach ($this->json['callBacks'] as $key => $value) {
       $cb = Callback::load($value);
       $el = array();
+      $el['externalId'] = $cb->getExternalId();
       $el['callerId'] = $cb->getCallerId();
       $el['status'] = $cb->getStatus();
       array_push($report,$el);

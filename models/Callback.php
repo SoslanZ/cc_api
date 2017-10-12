@@ -4,33 +4,39 @@ require 'config/db.php';
 
 class Callback extends Model {
 
+  private $externalId;
   private $queueId;
   private $callerId;
 
   static private $callBackInstance;
 
   static public function load($jsonArray) {
-    if (array_key_exists('queueId',$jsonArray)) {
-      return self::getInstance($jsonArray['queueId'],$jsonArray['callerId']);
-    }
-    return self::getInstance(null,$jsonArray['callerId']);
+    return self::getInstance(
+      array_key_exists('queueId',$jsonArray)?$jsonArray['queueId']:null,
+      array_key_exists('callerId',$jsonArray)?$jsonArray['callerId']:null,
+      array_key_exists('externalId',$jsonArray)?$jsonArray['externalId']:null
+    );
   }
 
-  static public function getInstance($queueId, $callerId) {
+  static public function getInstance($queueId, $callerId,$externalId) {
     if (!self::$callBackInstance) {
-      self::$callBackInstance = new Callback($queueId,$callerId);
+      self::$callBackInstance = new Callback($queueId,$callerId,$externalId);
     } else {
       self::$callBackInstance->setQueueId($queueId);
       self::$callBackInstance->setCallerId($callerId);
+      self::$callBackInstance->setExternalId($externalId);
     }
     return self::$callBackInstance;
   }
 
-  private function __construct($queueId = null,$callerId = null) {
+  private function __construct($queueId = null,$callerId = null,$externalId = null) {
     $this->setQueueId($queueId);
     $this->setCallerId($callerId);
+    $this->setExternalId($externalId);
   }
 
+  public function setExternalId($externalId) {$this->externalId = $externalId;}
+  public function getExternalId() {return $this->externalId;}
   public function setQueueId($queueId) {$this->queueId = $queueId;}
   public function setCallerId($callerId) {$this->callerId = $callerId;}
   public function getQueueId() {return $this->queueId;}
