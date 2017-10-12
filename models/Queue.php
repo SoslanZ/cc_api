@@ -6,7 +6,7 @@ require 'config/db.php';
 class Queue extends Model {
 
   private $queueNum;
-  const QUEUE_FREE_MEMBER_PATTERN = '/^\d+ has (\d+) calls \(max (\d+)\)/';
+  const QUEUE_FREE_MEMBER_PATTERN = '/^\d+ has (\d+) calls \(max (\d+|unlimited)\)/';
 
   function __construct($__queueNum=null) {
     $this->queueNum = $__queueNum;
