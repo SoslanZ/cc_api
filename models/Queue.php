@@ -217,9 +217,12 @@ class Queue extends Model {
     $this->isQueueSetInConstructor();
     exec( "asterisk -rx 'queue show ".$this->queueNum."' 2>&1" ,$output, $return_var);
     if (is_array($output)) {
+      $return = array();
       // process only first row as line
       preg_match(self::QUEUE_FREE_MEMBER_PATTERN, $output[0], $matches);
-      return $matches[1].'/'.$matches[2];
+      $return['nowCalls'] = strval($matches[1]);
+      $return['maxCalls'] = strval($matches[2]);
+      return $return;
     } else {
       $this->exception( 'asterisk output is not array, cant check free membmers' );
     }
