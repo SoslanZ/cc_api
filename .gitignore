@@ -1,3 +1,4 @@
 .htaccess
 /config/db_asterisk.php
+/config/db_cc_line_tf.php
 /nbproject

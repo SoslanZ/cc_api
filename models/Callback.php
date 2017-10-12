@@ -1,4 +1,6 @@
 <?php
+require 'config/db_cc_line_tf.php';
+require 'config/db.php';
 
 class Callback extends Model {
 
@@ -56,8 +58,18 @@ class Callback extends Model {
   }
 
   public function getStatus() {
-    return self::CALL_FINISH;
-    // SQL to asterisk
+    if (!$this->callerId) {
+      throw new Exception("CallerId not set", 1);
+      return;
+    }
+
+    $db = new db(new LineTfDatabase());
+    $query = "SELECT rc.hangupdate
+                FROM rt_calls rc
+               WHERE rc.callerid = '$this->callerId'
+                 and rc.hangupdate = 0";
+                 
+    return mysql_num_rows($db->execute($query));
   }
 
 }
