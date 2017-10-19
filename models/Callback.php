@@ -69,7 +69,7 @@ class Callback extends Model {
     $query = "SELECT rc.hangupdate
                 FROM rt_calls rc
                WHERE rc.callerid = '$this->callerId'
-                 and rc.hangupdate = 0";
+                 and ( rc.hangupdate = 0 or TIMESTAMPDIFF(MINUTE,rc.hangupdate,NOW()) < 4 )";
 
     return mysql_num_rows($db->execute($query));
   }
